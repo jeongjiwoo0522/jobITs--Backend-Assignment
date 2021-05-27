@@ -1,5 +1,5 @@
 import { Post } from "../../model/post";
 
-export interface PostInterface {
+export interface PostRepository {
   findById(id: string): Post;
 }
