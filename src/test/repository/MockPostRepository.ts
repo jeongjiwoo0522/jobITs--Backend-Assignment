@@ -1,5 +1,4 @@
-import { PostRepository } from "../../interface/post/postRepository";
-import { Post } from "../../model/post";
+import { PostRepository, Post } from "../../interface";
 import { dummyPost, dummyPostCatalog } from "../dummy/post";
 
 export class MockPostRepository implements PostRepository {

@@ -1,5 +1,4 @@
-import { User } from "../../interface/user/user";
-import { Post } from "../../interface/post/post";
+import { User, Post } from "../../interface";
 
 export const dummyPost: Post = {
   id: "dummyPost1",

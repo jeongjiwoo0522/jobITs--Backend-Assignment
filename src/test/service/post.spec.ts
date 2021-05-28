@@ -1,4 +1,4 @@
-import { Post } from "../../interface/post/post";
+import { Post } from "../../interface";
 import { PostService } from "../../service/post";
 import { MockPostRepository } from "../repository/MockPostRepository";
 
