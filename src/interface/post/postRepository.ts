@@ -1,5 +1,6 @@
-import { Post } from "../../model/post";
+import { Post } from "../post/post";
 
 export interface PostRepository {
-  findById(id: string): Post;
+  findById(id: string): Promise<Post>;
+  findAll(): Promise<Array<Post>>;
 }
