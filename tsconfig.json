@@ -9,7 +9,10 @@
     "outDir": "build",
     "baseUrl": ".",
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "types": [
+      "jest"
+    ]
   },
   "include": ["src/**/*"]
 }
