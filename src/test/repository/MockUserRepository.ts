@@ -1,4 +1,4 @@
-import { UserRepository } from "../../interface";
+import { User, UserRepository } from "../../interface";
 import { dummyUser } from "../dummy/user";
 
 export class MockUserRepository implements UserRepository {
@@ -16,5 +16,9 @@ export class MockUserRepository implements UserRepository {
     if(id === "rightId") {
       return dummyUser;
     }
+  }
+
+  public async createUser(user: User): Promise<void> {
+    expect(user).toEqual(dummyUser);
   }
 }
