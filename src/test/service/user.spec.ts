@@ -16,5 +16,10 @@ describe("UserService", () => {
     it("should success", () => {
       return userService.checkAdminUser({ ...dummyUser, is_admin: true });
     });
-  })
+  });
+  describe("signUpUser", () => {
+    it("should success", () => {
+      return userService.signUpUser(dummyUser);
+    });
+  });
 });
