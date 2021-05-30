@@ -1,3 +1,4 @@
+import { notFoundPostException } from "../../exception";
 import { Post } from "../../interface";
 import { PostService } from "../../service/post";
 import { MockImageRepository } from "../repository/MockImageRepository";
@@ -58,8 +59,27 @@ describe("PostService", () => {
     });
   });
   describe("patchPost", () => {
+    it("should throw not found post exception", (done) => {
+      postService.patchPost("invalidId", "adminId", { title: "patchTitle", content: "patchContent" })
+      .catch(err => {
+        expect(err).toEqual(notFoundPostException);
+        done();
+      })
+    });
     it("should success", () => {
       return postService.patchPost("rightId", "adminId", { title: "patchTitle", content: "patchContent" });
     });
   });
+  describe("removePost", () => {
+    it("should throw not found post exception", (done) => {
+      postService.removePost("invalidId", "adminId")
+      .catch(err => {
+        expect(err).toEqual(notFoundPostException);
+        done();
+      })
+    });
+    it("should success", () => {
+      return postService.removePost("rightId", "adminId");
+    });
+  })
 });

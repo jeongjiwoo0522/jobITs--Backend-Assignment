@@ -39,5 +39,9 @@ export class MockPostRepository implements PostRepository {
     });
   }
 
+  public async deletePost(postId: string): Promise<void> {
+    expect(postId).toEqual("rightId");
+  }
+
   public manager = {} as EntityManager;
 }
