@@ -3,7 +3,7 @@ import { ImageRepository, Post, User, UserRepository } from "../interface";
 import { PostRepository } from "../interface/post/postRepository";
 import { getConnection } from "typeorm";
 import { v4 } from "uuid";
-import { internalServerError } from "../exception";
+import { forbiddenUserException, internalServerError } from "../exception";
 
 export class PostService {
   constructor( 
@@ -18,6 +18,7 @@ export class PostService {
 
   public async uploadPost(userId: string, body: UploadPostRequest, files: Array<any>) {
     const user: User = await this.userRepository.findById(userId);
+    await this.checkAdminUser(user);
     const queryRunner = getConnection().createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
@@ -34,6 +35,12 @@ export class PostService {
       throw internalServerError;
     } finally {
       await queryRunner.release();
+    }
+  }
+
+  private async checkAdminUser(user: User): Promise<void> {
+    if(!user.is_admin) {
+      throw forbiddenUserException;
     }
   }
 }

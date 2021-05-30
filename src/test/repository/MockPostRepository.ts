@@ -29,7 +29,7 @@ export class MockPostRepository implements PostRepository {
       id: "postId",
       title: "title",
       content: "content",
-      user: dummyUser
+      user: { ...dummyUser, is_admin: true }
     });
   }
 }

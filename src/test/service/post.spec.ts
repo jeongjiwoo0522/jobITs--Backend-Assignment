@@ -45,7 +45,7 @@ describe("PostService", () => {
       const commit = jest.spyOn(mockQueryRunner, "commitTransaction");
       const rollback = jest.spyOn(mockQueryRunner, "rollbackTransaction");
       const release = jest.spyOn(mockQueryRunner, "release");
-      return postService.uploadPost("rightId", { 
+      return postService.uploadPost("adminId", { 
         title: "title",  
         content: "content",
       }, [])

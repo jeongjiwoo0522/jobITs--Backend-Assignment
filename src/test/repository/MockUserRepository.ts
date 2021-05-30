@@ -12,9 +12,12 @@ export class MockUserRepository implements UserRepository {
     return MockUserRepository._instance;
   }
 
-  public async findById(id: string) {
+  public async findById(id: string): Promise<User> {
     if(id === "rightId") {
       return dummyUser;
+    }
+    if(id === "adminId") {
+      return { ...dummyUser, is_admin: true }; 
     }
   }
 
