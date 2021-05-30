@@ -6,5 +6,6 @@ export interface PostRepository {
   findAll(): Promise<Array<Post>>;
   createNewPost(post: Post, manager: EntityManager): Promise<void>;
   updatePost(post: Post, manager: EntityManager): Promise<void>;
+  deletePost(postId: string): Promise<void>;
   manager: EntityManager;
 }
