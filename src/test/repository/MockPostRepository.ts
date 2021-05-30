@@ -1,5 +1,7 @@
+import { EntityManager } from "typeorm";
 import { PostRepository, Post } from "../../interface";
 import { dummyPost, dummyPostCatalog } from "../dummy/post";
+import { dummyUser } from "../dummy/user";
 
 export class MockPostRepository implements PostRepository {
   private constructor() {}
@@ -20,5 +22,14 @@ export class MockPostRepository implements PostRepository {
 
   public async findAll(): Promise<Array<Post>> {
     return dummyPostCatalog;
+  }
+
+  public async createNewPost(post: Post, manager: EntityManager): Promise<void> {
+    expect(post).toEqual({
+      id: "postId",
+      title: "title",
+      content: "content",
+      user: dummyUser
+    });
   }
 }
