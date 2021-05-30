@@ -20,10 +20,11 @@ const userService: UserService = new UserService(MockUserRepository.instance);
 
 describe("UserService", () => {
   describe("checkAdminUser", () => {
-    it("should throw forbidden user exception", () => {
-      return userService.checkAdminUser(dummyUser)
+    it("should throw forbidden user exception", (done) => {
+      userService.checkAdminUser(dummyUser)
       .catch(err => {
         expect(err).toEqual(forbiddenUserException);
+        done();
       });
     });
     it("should success", () => {

@@ -2,6 +2,7 @@ import { forbiddenUserException, invalidPasswordException, notFoundUserException
 import { LoginUserRequest, LoginUserResponse, User, UserRepository } from "../interface";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import config from "../config";
 
 export class UserService {
   constructor(
@@ -38,7 +39,7 @@ export class UserService {
   private async signToken(userId: string, type: "access" | "refresh"): Promise<string> {
     return jwt.sign({
       userId, type
-    }, process.env.JWT_SECRET, {
+    }, config.jwtSecret, {
       expiresIn: type === "access" ? "2h" : "14d"
     });
   }
