@@ -1,5 +1,14 @@
-import { forbiddenUserException, invalidPasswordException, notFoundUserException } from "../exception";
-import { LoginUserRequest, LoginUserResponse, User, UserRepository } from "../interface";
+import { 
+  LoginUserRequest, 
+  SignUpUserRequest, 
+  LoginUserResponse, 
+  UserRepository,
+  User } from "../interface";
+import { 
+  alreadyExistUserException,
+  forbiddenUserException, 
+  invalidPasswordException, 
+  notFoundUserException } from "../exception";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import config from "../config";
@@ -15,8 +24,12 @@ export class UserService {
     }
   }
 
-  public async signUpUser(user: User): Promise<void> {
-    await this.userRepository.createUser(user);
+  public async signUpUser(body: SignUpUserRequest): Promise<void> {
+    const checkExist: User = await this.userRepository.findById(body.id);
+    if(checkExist) {
+      throw alreadyExistUserException;
+    }
+    await this.userRepository.createUser({ ...body, is_admin: false, posts: [] });
   }
 
   public async loginUser(body: LoginUserRequest): Promise<LoginUserResponse> {

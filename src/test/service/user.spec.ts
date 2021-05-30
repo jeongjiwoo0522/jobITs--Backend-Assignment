@@ -1,5 +1,13 @@
-import { LoginUserRequest, LoginUserResponse, TokenPayload } from "../../interface";
-import { forbiddenUserException, invalidPasswordException, notFoundUserException } from "../../exception";
+import { 
+  LoginUserRequest, 
+  SignUpUserRequest, 
+  LoginUserResponse, 
+  TokenPayload } from "../../interface";
+import { 
+  alreadyExistUserException,
+  forbiddenUserException, 
+  invalidPasswordException, 
+  notFoundUserException } from "../../exception";
 import { UserService } from "../../service/user";
 import { dummyUser } from "../dummy/user";
 import { MockUserRepository } from "../repository/MockUserRepository";
@@ -32,8 +40,20 @@ describe("UserService", () => {
     });
   });
   describe("signUpUser", () => {
+    const body: SignUpUserRequest = {
+      id: "dummyUser1",
+      name: "user1",
+      password: "asdf",
+    };
+    it("should throw already exist user exception", (done) => {
+      userService.signUpUser({ ...body, id: "rightId" })
+      .catch(err => {
+        expect(err).toEqual(alreadyExistUserException);
+        done();
+      });
+    });
     it("should success", () => {
-      return userService.signUpUser(dummyUser);
+      return userService.signUpUser(body);
     });
   });
   describe("loginUser", () => {
