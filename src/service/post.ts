@@ -3,7 +3,7 @@ import { ImageRepository, Post, User, UserRepository } from "../interface";
 import { PostRepository } from "../interface/post/postRepository";
 import { getConnection } from "typeorm";
 import { v4 } from "uuid";
-import { forbiddenUserException, internalServerError } from "../exception";
+import { forbiddenUserException, internalServerError, notFoundPostException } from "../exception";
 
 export class PostService {
   constructor( 
@@ -42,6 +42,9 @@ export class PostService {
     const user: User = await this.userRepository.findById(userId);
     await this.checkAdminUser(user);
     const post: Post = await this.postRepository.findById(postId);
+    if(!post) {
+      throw notFoundPostException;
+    }
     await this.postRepository.updatePost({ ...post, ...body }, this.postRepository.manager);
   }
 
@@ -49,5 +52,15 @@ export class PostService {
     if(!user.is_admin) {
       throw forbiddenUserException;
     }
+  }
+
+  public async removePost(postId: string, userId: string): Promise<void> {
+    const user: User = await this.userRepository.findById(userId);
+    await this.checkAdminUser(user);
+    const post: Post = await this.postRepository.findById(postId);
+    if(!post) {
+      throw notFoundPostException;
+    }
+    await this.postRepository.deletePost(postId);
   }
 }
