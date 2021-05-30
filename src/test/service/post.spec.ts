@@ -57,4 +57,9 @@ describe("PostService", () => {
       });
     });
   });
+  describe("patchPost", () => {
+    it("should success", () => {
+      return postService.patchPost("rightId", "adminId", { title: "patchTitle", content: "patchContent" });
+    });
+  });
 });

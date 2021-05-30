@@ -32,4 +32,12 @@ export class MockPostRepository implements PostRepository {
       user: { ...dummyUser, is_admin: true }
     });
   }
+
+  public async updatePost(post: Post, manager: EntityManager): Promise<void> {
+    expect(post).toEqual({
+      ...dummyPost, title: "patchTitle", content: "patchContent"
+    });
+  }
+
+  public manager = {} as EntityManager;
 }
