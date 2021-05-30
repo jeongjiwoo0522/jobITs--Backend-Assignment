@@ -1,5 +1,7 @@
-import { forbiddenUserException } from "../exception";
-import { User, UserRepository } from "../interface";
+import { forbiddenUserException, invalidPasswordException, notFoundUserException } from "../exception";
+import { LoginUserRequest, LoginUserResponse, User, UserRepository } from "../interface";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 export class UserService {
   constructor(
@@ -14,5 +16,30 @@ export class UserService {
 
   public async signUpUser(user: User): Promise<void> {
     await this.userRepository.createUser(user);
+  }
+
+  public async loginUser(body: LoginUserRequest): Promise<LoginUserResponse> {
+    const user: User = await this.userRepository.findById(body.id);
+    if(!user) {
+      throw notFoundUserException;
+    }
+    const checkInvalidPassword: boolean = await bcrypt.compare(body.password, user.password);
+    if(!checkInvalidPassword) {
+      throw invalidPasswordException;
+    }
+    const accessToken: Promise<string> = this.signToken(user.id, "access");
+    const refreshtoken: Promise<string> = this.signToken(user.id, "refresh");
+    return {
+      accessToken: await accessToken,
+      refreshToken: await refreshtoken,
+    };
+  }
+
+  private async signToken(userId: string, type: "access" | "refresh"): Promise<string> {
+    return jwt.sign({
+      userId, type
+    }, process.env.JWT_SECRET, {
+      expiresIn: type === "access" ? "2h" : "14d"
+    });
   }
 }
