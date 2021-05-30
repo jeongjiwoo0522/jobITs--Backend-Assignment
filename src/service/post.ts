@@ -1,4 +1,4 @@
-import { UploadPostRequest } from "../interface/post/postRequest";
+import { PatchPostRequest, UploadPostRequest } from "../interface/post/postRequest";
 import { ImageRepository, Post, User, UserRepository } from "../interface";
 import { PostRepository } from "../interface/post/postRepository";
 import { getConnection } from "typeorm";
@@ -36,6 +36,13 @@ export class PostService {
     } finally {
       await queryRunner.release();
     }
+  }
+
+  public async patchPost(postId: string, userId: string, body: PatchPostRequest) {
+    const user: User = await this.userRepository.findById(userId);
+    await this.checkAdminUser(user);
+    const post: Post = await this.postRepository.findById(postId);
+    await this.postRepository.updatePost({ ...post, ...body }, this.postRepository.manager);
   }
 
   private async checkAdminUser(user: User): Promise<void> {
