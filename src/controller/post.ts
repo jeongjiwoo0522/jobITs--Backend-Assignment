@@ -18,7 +18,7 @@ export class PostController {
   }
 
   public uploadPost = async (req: CustomRequest, res: CustomResponse) => {
-    await this.postService.uploadPost(req.decoded.userId, req.body, req.files as Array<Express.Multer.File>);
+    await this.postService.uploadPost(req.decoded.userId, req.body, req.files ? req.files as Array<Express.Multer.File> : [] as Array<Express.Multer.File>);
     res.status(201).json({
       message: "upload post",
     });
