@@ -15,6 +15,9 @@ import { MockUserRepository } from "../repository/MockUserRepository";
 jest.mock("bcrypt", () => ({
   async compare(data: string, encrypted: string): Promise<boolean> {
     return data === encrypted;
+  },
+  async hash() {
+    return "asdf";
   }
 }));
 
