@@ -19,9 +19,11 @@ export class DatabasePostRepository extends Repository<Post> implements PostRepo
     .addSelect("post.title")
     .addSelect("post.content")
     .addSelect("images.path")
+    .addSelect("post.createdAt")
     .leftJoin("post.images", "images")
     .offset(page*5)
     .limit(5)
+    .orderBy("post.createdAt")
     .getMany();
   }
 

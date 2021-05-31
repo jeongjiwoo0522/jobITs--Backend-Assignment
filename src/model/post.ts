@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
 import { Admin } from "./admin";
 import { Image } from "./image";
 
@@ -12,6 +12,9 @@ export class Post {
 
   @Column()
   content: string;
+
+  @CreateDateColumn()
+  createdAt?: Date;
 
   @ManyToOne(() => Admin, user => user.posts)
   @JoinColumn({ name: "admin_id" })

@@ -16,7 +16,7 @@ export class PostController {
 
   public getPostCatalog = async (req: CustomRequest, res: CustomResponse) => {
     const page = req.query.page;
-    if(!(page && +page)) {
+    if(!(page === "0" || (page && +page))) { // number queyr validation
       throw invalidParmaterException;
     }
     const response = await this.postService.getPostCatalog(+page);
