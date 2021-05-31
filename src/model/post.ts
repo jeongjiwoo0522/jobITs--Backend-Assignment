@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
+import { Admin } from "./admin";
 import { Image } from "./image";
-import { User } from "./user";
 
 @Entity("post")
 export class Post {
@@ -13,9 +13,9 @@ export class Post {
   @Column()
   content: string;
 
-  @ManyToOne(() => User, user => user.posts)
-  @JoinColumn({ name: "user_id" })
-  user: User;
+  @ManyToOne(() => Admin, user => user.posts)
+  @JoinColumn({ name: "admin_id" })
+  user: Admin;
 
   @OneToMany(() => Image, image => image.post) 
   images: Array<Image>;

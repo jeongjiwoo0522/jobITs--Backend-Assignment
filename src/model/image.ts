@@ -6,7 +6,7 @@ export class Image {
   @PrimaryColumn("uuid")
   id: string;
 
-  @PrimaryColumn("string")
+  @PrimaryColumn("varchar")
   path: string;
 
   @ManyToOne(() => Post, post => post.images) 

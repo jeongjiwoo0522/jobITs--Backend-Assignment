@@ -1,5 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
-import { Post } from "./post";
+import { Column, Entity, PrimaryColumn } from "typeorm";
 
 @Entity("user")
 export class User { 
@@ -14,7 +13,4 @@ export class User {
 
   @Column({ type: "tinyint" })
   is_admin: boolean;
-
-  @OneToMany(() => Post, post => post.user)
-  posts: Array<Post>;
 }
