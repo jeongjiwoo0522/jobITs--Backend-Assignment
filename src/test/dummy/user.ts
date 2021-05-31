@@ -5,5 +5,4 @@ export const dummyUser: User = {
   name: "user1",
   password: "asdf",
   is_admin: false,
-  posts: []
 }
