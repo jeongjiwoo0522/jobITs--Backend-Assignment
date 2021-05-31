@@ -21,9 +21,9 @@ export class UserController {
   } 
 
   public refreshToken = async (req: CustomRequest, res: Response) => {
-    const refreshToken: string = await this.userService.refreshToken(req.decoded.userId);
+    const accessToken: string = await this.userService.refreshToken(req.decoded.userId);
     res.status(200).json({
-      refreshToken
+      accessToken
     });
   }
 }

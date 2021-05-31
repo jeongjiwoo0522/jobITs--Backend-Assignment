@@ -29,7 +29,7 @@ export class UserService {
     if(checkExist) {
       throw alreadyExistUserException;
     }
-    await this.userRepository.createUser({ ...body, is_admin: false, posts: [] });
+    await this.userRepository.createUser({ ...body, is_admin: false, password: await bcrypt.hash(body.password, 12) });
   }
 
   public async loginUser(body: LoginUserRequest): Promise<LoginUserResponse> {
@@ -47,6 +47,10 @@ export class UserService {
       accessToken: await accessToken,
       refreshToken: await refreshtoken,
     };
+  }
+
+  public refreshToken(userId: string) {
+    return this.signToken(userId, "access");
   }
 
   private async signToken(userId: string, type: "access" | "refresh"): Promise<string> {
