@@ -13,8 +13,8 @@ export class PostService {
     private adminRepository: AdminRepository
   ) {}
 
-  public getPostCatalog(): Promise<Array<Post>> {
-    return this.postRepository.findAll();
+  public getPostCatalog(page: number): Promise<Array<Post>> {
+    return this.postRepository.findAll(page);
   }
 
   public async uploadPost(userId: string, body: UploadPostRequest, files: Array<Express.Multer.File>) {

@@ -5,6 +5,7 @@ import { DatabaseUserRepository } from "../repository/userRepository";
 import { DatabaseAdminRepository } from "../repository/adminRepository";
 import { getCustomRepository } from "typeorm";
 import { PostService } from "../service/post";
+import { invalidParmaterException } from "../exception";
 
 export class PostController {
   private postRepository: PostRepository = getCustomRepository(DatabasePostRepository);
@@ -14,8 +15,11 @@ export class PostController {
   private postService: PostService = new PostService(this.postRepository, this.imageRepository, this.userRepository, this.adminRepository);
 
   public getPostCatalog = async (req: CustomRequest, res: CustomResponse) => {
-    console.log(req.path);
-    const response = await this.postService.getPostCatalog();
+    const page = req.params.query;
+    if(!(page && +page)) {
+      throw invalidParmaterException;
+    }
+    const response = await this.postService.getPostCatalog(+page);
     res.status(200).json(response);
   }
 

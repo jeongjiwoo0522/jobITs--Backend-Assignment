@@ -13,9 +13,15 @@ export class DatabasePostRepository extends Repository<Post> implements PostRepo
     .getOne();
   }
 
-  public findAll(): Promise<Array<Post>> {
+  public findAll(page: number): Promise<Array<Post>> {
     return this.createQueryBuilder("post")
+    .select("post.id")
+    .addSelect("post.title")
+    .addSelect("post.content")
+    .addSelect("images.path")
     .leftJoin("post.images", "images")
+    .offset(page*5)
+    .limit(5)
     .getMany();
   }
 
