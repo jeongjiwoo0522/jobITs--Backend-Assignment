@@ -1,7 +1,7 @@
 import { EntityManager } from "typeorm";
 import { PostRepository, Post } from "../../interface";
+import { dummyAdmin } from "../dummy/admin";
 import { dummyPost, dummyPostCatalog } from "../dummy/post";
-import { dummyUser } from "../dummy/user";
 
 export class MockPostRepository implements PostRepository {
   private constructor() {}
@@ -20,7 +20,7 @@ export class MockPostRepository implements PostRepository {
     }
   }
 
-  public async findAll(): Promise<Array<Post>> {
+  public async findAll(page: number): Promise<Array<Post>> {
     return dummyPostCatalog;
   }
 
@@ -29,7 +29,7 @@ export class MockPostRepository implements PostRepository {
       id: "postId",
       title: "title",
       content: "content",
-      user: { ...dummyUser, is_admin: true }
+      user: dummyAdmin,
     });
   }
 
