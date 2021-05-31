@@ -20,11 +20,11 @@ export class DatabasePostRepository extends Repository<Post> implements PostRepo
   }
 
   public async createNewPost(post: Post, manager: EntityManager): Promise<void> {
-    await manager.save(post);
+    await manager.save(this.create(post));
   }
 
   public async updatePost(post: Post, manager: EntityManager): Promise<void> {
-    await manager.save(post);
+    await manager.save(this.create(post));
   }
 
   public async deletePost(postId: string): Promise<void> {

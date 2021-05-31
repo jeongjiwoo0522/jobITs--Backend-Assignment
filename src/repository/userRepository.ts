@@ -8,12 +8,13 @@ export class DatabaseUserRepository extends Repository<User> implements UserRepo
     return this.createQueryBuilder("user")
     .select("user.id")
     .addSelect("user.name")
+    .addSelect("user.password")
     .addSelect("user.is_admin")
     .where("user.id = :id", { id })
     .getOne();
   }
 
   public async createUser(user: User): Promise<void> {
-    await this.manager.save(user);
+    await this.manager.save(this.create(user));
   }
 }
