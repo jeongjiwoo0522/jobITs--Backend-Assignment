@@ -15,7 +15,7 @@ export class PostController {
   private postService: PostService = new PostService(this.postRepository, this.imageRepository, this.userRepository, this.adminRepository);
 
   public getPostCatalog = async (req: CustomRequest, res: CustomResponse) => {
-    const page = req.params.query;
+    const page = req.query.page;
     if(!(page && +page)) {
       throw invalidParmaterException;
     }
