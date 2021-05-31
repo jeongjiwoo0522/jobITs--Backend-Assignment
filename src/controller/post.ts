@@ -1,7 +1,8 @@
-import { CustomRequest, CustomResponse, ImageRepository, PostRepository, UserRepository } from "../interface";
+import { AdminRepository, CustomRequest, CustomResponse, ImageRepository, PostRepository, UserRepository } from "../interface";
 import { DatabaseImageRepository } from "../repository/imageRepository";
 import { DatabasePostRepository } from "../repository/postRepository";
 import { DatabaseUserRepository } from "../repository/userRepository";
+import { DatabaseAdminRepository } from "../repository/adminRepository";
 import { getCustomRepository } from "typeorm";
 import { PostService } from "../service/post";
 
@@ -9,7 +10,8 @@ export class PostController {
   private postRepository: PostRepository = getCustomRepository(DatabasePostRepository);
   private imageRepository: ImageRepository = getCustomRepository(DatabaseImageRepository);
   private userRepository: UserRepository = getCustomRepository(DatabaseUserRepository);
-  private postService: PostService = new PostService(this.postRepository, this.imageRepository, this.userRepository);
+  private adminRepository: AdminRepository = getCustomRepository(DatabaseAdminRepository);
+  private postService: PostService = new PostService(this.postRepository, this.imageRepository, this.userRepository, this.adminRepository);
 
   public getPostCatalog = async (req: CustomRequest, res: CustomResponse) => {
     console.log(req.path);

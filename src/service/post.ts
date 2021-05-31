@@ -1,5 +1,5 @@
 import { PatchPostRequest, UploadPostRequest } from "../interface/post/postRequest";
-import { ImageRepository, Post, User, UserRepository } from "../interface";
+import { AdminRepository, ImageRepository, Post, User, UserRepository, Admin } from "../interface";
 import { PostRepository } from "../interface/post/postRepository";
 import { getConnection } from "typeorm";
 import { v4 } from "uuid";
@@ -9,22 +9,25 @@ export class PostService {
   constructor( 
     private postRepository: PostRepository,
     private imageRepository: ImageRepository,
-    private userRepository: UserRepository
+    private userRepository: UserRepository,
+    private adminRepository: AdminRepository
   ) {}
 
   public getPostCatalog(): Promise<Array<Post>> {
     return this.postRepository.findAll();
   }
 
-  public async uploadPost(userId: string, body: UploadPostRequest, files: Array<any>) {
-    const user: User = await this.userRepository.findById(userId);
-    await this.checkAdminUser(user);
+  public async uploadPost(userId: string, body: UploadPostRequest, files: Array<Express.Multer.File>) {
+    const adminUser: Admin = await this.adminRepository.findById(userId);
+    if(!adminUser) {
+      throw forbiddenUserException;
+    }
     const queryRunner = getConnection().createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
     const postId: string = v4();
     try {
-      await this.postRepository.createNewPost({ ...body, id: postId, user }, queryRunner.manager);
+      await this.postRepository.createNewPost({ ...body, id: postId, user: adminUser}, queryRunner.manager);
       await Promise.all(files.map(file => this.imageRepository.createNewImage({
         id: postId,
         path: file.filename,
