@@ -1,5 +1,9 @@
 import config from "./index";
 import { ConnectionOptions } from "typeorm";
+import { User } from "../model/user";
+import { Post } from "../model/post";
+import { Image } from "../model/image";
+import { Admin } from "../model/admin";
 
 export const connectionOption: ConnectionOptions = {
   type: "mysql",
@@ -9,6 +13,6 @@ export const connectionOption: ConnectionOptions = {
   password: config.mysql.dbPass,
   database: config.mysql.dbName,
   synchronize: false,
-  logging: false,
-  entities: []
+  logging: true,
+  entities: [User, Post, Image, Admin]
 }

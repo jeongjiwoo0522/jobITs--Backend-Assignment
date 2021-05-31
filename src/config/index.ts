@@ -1,6 +1,7 @@
+import path from "path";
 import { config } from "dotenv";
 
-config();
+config({ path: path.join(__dirname, "..", ".env") });
 
 export default {
   port: +process.env.PORT,
