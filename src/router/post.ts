@@ -21,8 +21,8 @@ export default (app: Router) => {
   route.post(
     "/",
     verifyTokenMiddleware,
-    validationRequest(UploadPostSchema, "body"),
     fileUpload.array("file"),
+    validationRequest(UploadPostSchema, "body"),
     tryCatchHandler(postController.uploadPost)
   );
 
